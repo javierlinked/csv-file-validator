@@ -1,23 +1,25 @@
-import CSVFileValidator from '../src/csv-file-validator'
 
-const requiredError = (headerName, rowNumber, columnNumber) => {
+
+ import { CSVFileValidator, ICSVFile } from "csv-file-validator"
+
+const requiredError = (headerName: any, rowNumber: any, columnNumber: any) => {
 	return `<div class="red">${headerName} is required in the <strong>${rowNumber} row</strong> / <strong>${columnNumber} column</strong></div>`
 }
-const validateError = (headerName, rowNumber, columnNumber) => {
+const validateError = (headerName: any, rowNumber: any, columnNumber: any) => {
 	return `<div class="red">${headerName} is not valid in the <strong>${rowNumber} row</strong> / <strong>${columnNumber} column</strong></div>`
 }
-const uniqueError = (headerName, rowNumber) => {
+const uniqueError = (headerName: any, rowNumber: any) => {
 	return `<div class="red">${headerName} is not unique at the <strong>${rowNumber} row</strong></div>`
 }
-const isEmailValid = function (email) {
+const isEmailValid = function (email: string) {
 	const reqExp = /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$/
 	return reqExp.test(email)
 }
-const isPasswordValid = function (password) {
+const isPasswordValid = function (password: string | any[]) {
 	return password.length >= 4
 }
 
-const CSVConfig = {
+const CSVConfig: ICSVFile = {
 	headers: [
 		{ name: 'First Name', inputName: 'firstName', required: true, requiredError },
 		{ name: 'Last Name', inputName: 'lastName', required: true, requiredError, optional: true },
@@ -27,11 +29,22 @@ const CSVConfig = {
 	]
 }
 
+// document.getElementById('file').onchange = function (event) {
+// 	CSVFileValidator(event.target.files[0], CSVConfig)
+// 		.then(csvData => {
+// 			csvData.inValidMessages.forEach(message => {
+// 				document.getElementById('invalidMessages').insertAdjacentHTML('beforeend', message)
+// 			})
+// 			console.log(csvData.inValidMessages)
+// 			console.log(csvData.data)
+// 		})
+// }
+
 document.getElementById('file').onchange = function (event) {
-	CSVFileValidator(event.target.files[0], CSVConfig)
+	CSVFileValidator(event.target as unknown as string, CSVConfig)
 		.then(csvData => {
 			csvData.inValidMessages.forEach(message => {
-				document.getElementById('invalidMessages').insertAdjacentHTML('beforeend', message)
+				document.getElementById('invalidMessages').insertAdjacentHTML('beforeend', message as unknown as string)
 			})
 			console.log(csvData.inValidMessages)
 			console.log(csvData.data)
